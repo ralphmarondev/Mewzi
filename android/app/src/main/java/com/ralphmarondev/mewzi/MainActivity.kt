@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.ralphmarondev.mewzi.core.util.LocalThemeState
 import com.ralphmarondev.mewzi.navigation.AppNavigation
 import com.ralphmarondev.mewzi.ui.theme.MewziTheme
 
@@ -12,7 +13,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MewziTheme {
+            val themeState = LocalThemeState.current
+            MewziTheme(darkTheme = themeState.darkTheme.value) {
                 AppNavigation()
             }
         }
