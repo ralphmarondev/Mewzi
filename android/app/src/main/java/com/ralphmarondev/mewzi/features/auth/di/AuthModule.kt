@@ -4,6 +4,7 @@ import com.ralphmarondev.mewzi.features.auth.data.network.AuthService
 import com.ralphmarondev.mewzi.features.auth.data.repository.AuthRepositoryImpl
 import com.ralphmarondev.mewzi.features.auth.domain.repository.AuthRepository
 import com.ralphmarondev.mewzi.features.auth.domain.usecase.LoginUseCase
+import com.ralphmarondev.mewzi.features.auth.domain.usecase.RegisterUseCase
 import com.ralphmarondev.mewzi.features.auth.presentation.login.LoginViewModel
 import com.ralphmarondev.mewzi.features.auth.presentation.register.RegisterViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
@@ -16,6 +17,7 @@ val authModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
 
     factoryOf(::LoginUseCase)
+    factoryOf(::RegisterUseCase)
 
     viewModelOf(::LoginViewModel)
     viewModelOf(::RegisterViewModel)

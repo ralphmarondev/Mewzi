@@ -3,11 +3,15 @@ package com.ralphmarondev.mewzi.features.auth.presentation.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ralphmarondev.mewzi.core.domain.model.Result
+import com.ralphmarondev.mewzi.features.auth.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class RegisterViewModel : ViewModel() {
+class RegisterViewModel(
+    private val registerUseCase: RegisterUseCase
+) : ViewModel() {
 
     private val _firstName = MutableStateFlow("")
     val firstName = _firstName.asStateFlow()
@@ -21,14 +25,8 @@ class RegisterViewModel : ViewModel() {
     private val _password = MutableStateFlow("")
     val password = _password.asStateFlow()
 
-    private val _email = MutableStateFlow("")
-    val email = _email.asStateFlow()
-
-    private val _gender = MutableStateFlow("")
-    val gender = _gender.asStateFlow()
-
-    private val _mobileNo = MutableStateFlow("")
-    val mobileNo = _mobileNo.asStateFlow()
+    private val _response = MutableStateFlow<Result?>(null)
+    val response = _response.asStateFlow()
 
 
     fun onFirstNameValueChange(value: String) {
@@ -47,17 +45,6 @@ class RegisterViewModel : ViewModel() {
         _password.value = value
     }
 
-    fun onEmailValueChange(value: String) {
-        _email.value = value
-    }
-
-    fun onGenderValueChange(value: String) {
-        _gender.value = value
-    }
-
-    fun onMobileNoValueChange(value: String) {
-        _mobileNo.value = value
-    }
 
     fun register() {
         viewModelScope.launch {
@@ -66,10 +53,21 @@ class RegisterViewModel : ViewModel() {
                 "App",
                 "First name: `${_firstName.value}`, Last name: `${_lastName.value}`, username: `${_username.value}`, password: `${_password.value}`"
             )
-            Log.d(
-                "App",
-                "Email: `${_email.value}`, mobile no: `${_mobileNo.value}`, gender: `${_gender.value}`"
-            )
+            try {
+                val result = registerUseCase(
+                    firstName = _firstName.value,
+                    lastName = _lastName.value,
+                    username = _username.value,
+                    password = _password.value
+                )
+                _response.value = result
+            } catch (e: Exception) {
+                Log.e("App", "Registration failed. Error: ${e.message}")
+                _response.value = Result(
+                    success = false,
+                    message = "Registration failed."
+                )
+            }
         }
     }
 }

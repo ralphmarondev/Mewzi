@@ -7,4 +7,11 @@ interface AuthRepository {
         username: String,
         password: String
     ): Result
+
+    suspend fun register(
+        firstName: String,
+        lastName: String,
+        username: String,
+        password: String
+    ): Result
 }

@@ -4,6 +4,7 @@ import android.util.Log
 import com.ralphmarondev.mewzi.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.mewzi.core.domain.model.Result
 import com.ralphmarondev.mewzi.features.auth.data.model.LoginRequest
+import com.ralphmarondev.mewzi.features.auth.data.model.RegisterRequest
 import com.ralphmarondev.mewzi.features.auth.data.network.AuthService
 import com.ralphmarondev.mewzi.features.auth.domain.repository.AuthRepository
 
@@ -31,6 +32,35 @@ class AuthRepositoryImpl(
         return Result(
             success = false,
             message = "Login failed."
+        )
+    }
+
+    override suspend fun register(
+        firstName: String,
+        lastName: String,
+        username: String,
+        password: String
+    ): Result {
+        val result = authService.register(
+            request = RegisterRequest(
+                firstName = firstName,
+                lastName = lastName,
+                username = username,
+                password = password
+            )
+        )
+
+        if (result.username.isNotBlank() || result.roleName.isNotBlank()) {
+            Log.d("App", "Registration successful.")
+
+            return Result(
+                success = true,
+                message = "Registration successful."
+            )
+        }
+        return Result(
+            success = false,
+            message = "Registration failed."
         )
     }
 }
