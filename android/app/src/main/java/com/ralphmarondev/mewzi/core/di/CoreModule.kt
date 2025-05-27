@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val IP_ADDRESS = ""
+private const val IP_ADDRESS = "192.168.68.119"
 private const val BASE_URL = "http://$IP_ADDRESS:8000/api/"
 
 val coreModule = module {
