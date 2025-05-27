@@ -32,11 +32,22 @@ class LoginViewModel(
 
     fun login() {
         viewModelScope.launch {
-            val result = loginUseCase(
-                username = _username.value,
-                password = _password.value
-            )
-            _response.value = result
+            try {
+                val result = loginUseCase(
+                    username = _username.value,
+                    password = _password.value
+                )
+                _response.value = result
+            } catch (e: Exception) {
+                _response.value = Result(
+                    success = false,
+                    message = "Login failed."
+                )
+            }
         }
+    }
+
+    fun clearResponse() {
+        _response.value = null
     }
 }
