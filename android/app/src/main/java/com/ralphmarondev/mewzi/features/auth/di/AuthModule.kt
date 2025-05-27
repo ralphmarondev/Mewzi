@@ -13,7 +13,7 @@ import retrofit2.Retrofit
 
 val authModule = module {
     single { get<Retrofit>().create(AuthService::class.java) }
-    single<AuthRepository> { AuthRepositoryImpl(get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get()) }
 
     factoryOf(::LoginUseCase)
 

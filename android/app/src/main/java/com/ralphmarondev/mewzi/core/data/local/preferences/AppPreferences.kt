@@ -11,6 +11,8 @@ class AppPreferences(
         private const val PREFERENCES_NAME = "mewzi_preferences"
         private const val FIRST_LAUNCH = "first_launch"
         private const val DARK_THEME = "dark_theme"
+        private const val ACCESS_TOKEN = "access_token"
+        private const val REFRESH_TOKEN = "refresh_token"
     }
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
@@ -31,5 +33,21 @@ class AppPreferences(
 
     fun setDarkTheme(value: Boolean = !isDarkTheme()) {
         sharedPreferences.edit { putBoolean(DARK_THEME, value) }
+    }
+
+    fun setAccessToken(value: String) {
+        sharedPreferences.edit { putString(ACCESS_TOKEN, value) }
+    }
+
+    fun getAccessToken(): String? {
+        return sharedPreferences.getString(ACCESS_TOKEN, null)
+    }
+
+    fun setRefreshToken(value: String) {
+        sharedPreferences.edit { putString(REFRESH_TOKEN, value) }
+    }
+
+    fun getRefreshToken(): String? {
+        return sharedPreferences.getString(REFRESH_TOKEN, null)
     }
 }
