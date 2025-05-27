@@ -23,7 +23,7 @@ Powered by Django REST 🐍 and Jetpack Compose 🧵, and brewed on Ubuntu ☕�
 - 🐘 **PostgreSQL** + **multi-tenancy** support (SaaS-friendly!)
 - 🛠️ **Django REST Framework** backend
 - 📱 **Jetpack Compose** Android frontend
-- 🐧 Built with love on **Ubuntu 22.04.2 LTS**
+- 🐧 Built with love on **Ubuntu 24.04.2 LTS**
 
 ---
 
@@ -35,7 +35,7 @@ Powered by Django REST 🐍 and Jetpack Compose 🧵, and brewed on Ubuntu ☕�
 | Multi-tenancy | `django-tenants`                   |
 | Frontend      | Jetpack Compose (Android)          |
 | Design        | Pastel Yellow + Cute UI            |
-| OS            | Ubuntu 22.04.2 LTS                 |
+| OS            | Ubuntu 24.04.2 LTS                 |
 
 ---
 
@@ -78,7 +78,7 @@ Multi-tenant logic powered by `django-tenants`.
 
 ## 🐣 Dev Notes
 
-- Works beautifully on **Ubuntu 22.04.2 LTS**
+- Works beautifully on **Ubuntu 24.04.2 LTS**
 - Uses a soft, round design system
 - Targets Android 9+ with Compose Material 3
 - Great for learning **fullstack architecture**
