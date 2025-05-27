@@ -70,7 +70,7 @@ fun LoginScreen(
     val themeState = LocalThemeState.current
 
     LaunchedEffect(response) {
-        if (response.success == true) {
+        if (response?.success == true) {
             navigateToHome()
         }
     }
