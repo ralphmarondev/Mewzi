@@ -28,7 +28,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -49,7 +48,6 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
 import com.ralphmarondev.mewzi.core.util.LocalThemeState
-import com.ralphmarondev.mewzi.features.auth.presentation.components.ForgotPasswordDialog
 import com.ralphmarondev.mewzi.features.auth.presentation.components.NormalTextField
 import com.ralphmarondev.mewzi.features.auth.presentation.components.PasswordTextField
 import org.koin.androidx.compose.koinViewModel
@@ -64,7 +62,6 @@ fun LoginScreen(
     val username = viewModel.username.collectAsState().value
     val password = viewModel.password.collectAsState().value
     val response = viewModel.response.collectAsState().value
-    val showForgotPasswordDialog = viewModel.showForgotPasswordDialog.collectAsState().value
 
     val focusManager = LocalFocusManager.current
     val themeState = LocalThemeState.current
@@ -190,16 +187,6 @@ fun LoginScreen(
                         )
                     )
 
-                    TextButton(
-                        onClick = { viewModel.setShowForgotPasswordDialogValue(true) },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text(
-                            text = "Forgot Password?",
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
-                    }
-
                     Spacer(modifier = Modifier.height(8.dp))
                     Button(
                         onClick = {
@@ -235,13 +222,5 @@ fun LoginScreen(
             }
             item { Spacer(modifier = Modifier.height(100.dp)) }
         }
-    }
-
-    if (showForgotPasswordDialog) {
-        ForgotPasswordDialog(
-            onDismiss = {
-                viewModel.setShowForgotPasswordDialogValue(false)
-            }
-        )
     }
 }
