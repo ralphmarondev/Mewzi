@@ -27,7 +27,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -50,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
+import com.ralphmarondev.mewzi.core.presentation.KeyboardAwareSnackbarHost
 import com.ralphmarondev.mewzi.core.util.LocalThemeState
 import com.ralphmarondev.mewzi.features.auth.presentation.components.NormalTextField
 import com.ralphmarondev.mewzi.features.auth.presentation.components.PasswordTextField
@@ -112,7 +112,7 @@ fun LoginScreen(
             )
         },
         snackbarHost = {
-            SnackbarHost(hostState = snackbarState)
+            KeyboardAwareSnackbarHost(snackbarState)
         }
     ) { innerPadding ->
         LazyColumn(
