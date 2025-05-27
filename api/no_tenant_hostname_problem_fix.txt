@@ -1,0 +1,49 @@
+(.venv) ralphmaron@ralph-IdeaPad-Gaming-3-15IMH05:~/AndroidStudioProjects/Mewzi/api$ python manage.py runserver 0.0.0.0:8000
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 27, 2025 - 13:34:17
+Django version 5.1.9, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Not Found: /api/token/
+[27/May/2025 13:35:11] "GET /api/token/ HTTP/1.1" 404 1981
+Not Found: /favicon.ico
+[27/May/2025 13:35:11] "GET /favicon.ico HTTP/1.1" 404 1845
+^C(.venv) ralphmaron@ralph-IdeaPad-Gaming-3-15IMH05:~/AndroidStudioProjects/Mewzi/api$ python3 manage.py shell
+Python 3.12.3 (main, Feb  4 2025, 14:48:35) [GCC 13.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from mewzi.models import Mewzi, Domain
+>>> tenant = Mewzi.objects.get(schema_name='tenant1')
+>>> Domain.objects.create(domain='192.168.68.119',tenant=tenant,is_primary=True)
+<Domain: 192.168.68.119>
+>>> print(Domain.objects.all())
+<QuerySet [<Domain: tenant1.localhost>, <Domain: 192.168.68.119>]>
+>>> exit()
+(.venv) ralphmaron@ralph-IdeaPad-Gaming-3-15IMH05:~/AndroidStudioProjects/Mewzi/api$ python manage.py runserver 0.0.0.0:8000
+Watching for file changes with StatReloader
+Performing system checks...
+
+System check identified no issues (0 silenced).
+May 27, 2025 - 13:38:30
+Django version 5.1.9, using settings 'config.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Method Not Allowed: /api/token/
+[27/May/2025 13:38:34] "GET /api/token/ HTTP/1.1" 405 7609
+[27/May/2025 13:38:35] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+[27/May/2025 13:38:35] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+[27/May/2025 13:38:35] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+[27/May/2025 13:38:35] "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+[27/May/2025 13:38:35] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+[27/May/2025 13:38:35] "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
