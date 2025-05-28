@@ -47,10 +47,7 @@ fun AppNavigation(
                 )
             }
             composable<Routes.Home> {
-                HomeScreen(
-                    darkTheme = false,
-                    toggleDarkTheme = {}
-                )
+                HomeScreen()
             }
         }
     }

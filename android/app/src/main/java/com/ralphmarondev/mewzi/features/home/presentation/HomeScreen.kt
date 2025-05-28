@@ -1,89 +1,85 @@
 package com.ralphmarondev.mewzi.features.home.presentation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import android.annotation.SuppressLint
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.DarkMode
-import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PostAdd
+import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.PostAdd
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.util.fastForEachIndexed
+import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(
-    darkTheme: Boolean,
-    toggleDarkTheme: () -> Unit
-) {
+fun HomeScreen() {
+    val viewModel: HomeViewModel = koinViewModel()
+    val currentIndex = viewModel.currentIndex.collectAsState().value
+
+    val navItems = listOf(
+        NavItems(
+            selected = currentIndex == 0,
+            selectedIcon = Icons.Filled.Home,
+            defaultIcon = Icons.Outlined.Home,
+            onClick = { viewModel.onCurrentIndexValueChange(0) },
+            label = "Feed"
+        ),
+        NavItems(
+            selected = currentIndex == 1,
+            selectedIcon = Icons.Filled.PostAdd,
+            defaultIcon = Icons.Outlined.PostAdd,
+            onClick = { viewModel.onCurrentIndexValueChange(1) },
+            label = "New Post"
+        ),
+        NavItems(
+            selected = currentIndex == 2,
+            selectedIcon = Icons.Filled.AccountCircle,
+            defaultIcon = Icons.Outlined.AccountCircle,
+            onClick = { viewModel.onCurrentIndexValueChange(2) },
+            label = "Profile"
+        )
+    )
+
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Mewzi"
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = toggleDarkTheme
-                    ) {
-                        val imageVector = if (darkTheme) {
-                            Icons.Outlined.LightMode
-                        } else {
-                            Icons.Outlined.DarkMode
+        bottomBar = {
+            NavigationBar {
+                navItems.fastForEachIndexed { _, navItems ->
+                    NavigationBarItem(
+                        selected = navItems.selected,
+                        icon = {
+                            Icon(
+                                imageVector = if (navItems.selected) navItems.selectedIcon else navItems.defaultIcon,
+                                contentDescription = navItems.label
+                            )
+                        },
+                        onClick = navItems.onClick,
+                        label = {
+                            Text(
+                                text = navItems.label
+                            )
                         }
-                        Icon(
-                            imageVector = imageVector,
-                            contentDescription = "Theme switcher"
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
-                )
-            )
+                    )
+                }
+            }
         }
-    ) { innerPadding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = buildAnnotatedString {
-                    append("Hello there, ")
-                    withStyle(
-                        style = SpanStyle(
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    ) {
-                        append("Ralph Maron Eda")
-                    }
-                    append(" is here!")
-                },
-                fontSize = MaterialTheme.typography.titleLarge.fontSize,
-                fontWeight = MaterialTheme.typography.titleLarge.fontWeight,
-                color = MaterialTheme.colorScheme.secondary,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(16.dp)
-            )
-        }
+    ) {
+
     }
 }
+
+private data class NavItems(
+    val selected: Boolean,
+    val selectedIcon: ImageVector,
+    val defaultIcon: ImageVector,
+    val onClick: () -> Unit,
+    val label: String
+)
