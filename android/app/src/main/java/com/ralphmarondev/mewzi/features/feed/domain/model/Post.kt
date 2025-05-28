@@ -1,4 +1,10 @@
 package com.ralphmarondev.mewzi.features.feed.domain.model
 
-class Post {
-}
+data class Post(
+    val id: Int = 0,
+    val ownerUsername: String,
+    val ownerImage: String,
+    val caption: String,
+    val image: String?,
+    val uploadDate: String
+)
