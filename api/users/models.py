@@ -16,6 +16,7 @@ class Users(AbstractUser):
     mobile_no = models.CharField(max_length=200, blank=True, null=True)
     gender = models.CharField(max_length=100, choices=GENDER_CHOICES, blank=True, null=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, blank=True, null=True)
+    image = models.ImageField(upload_to='users/', blank=True, null=True)
     approved_date = models.DateTimeField(blank=True, null=True)
     update_date = models.DateTimeField(auto_now=True)
     is_deleted = models.BooleanField(default=False)

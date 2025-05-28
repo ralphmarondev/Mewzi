@@ -3,6 +3,8 @@ from .models import Roles, Users
 
 class UserSerializer(serializers.ModelSerializer):
     role_name = serializers.CharField(source='role.role', read_only=True)
+    image = serializers.ImageField(required=False, allow_null=True)
+    
     class Meta:
         model = Users
         fields = '__all__'

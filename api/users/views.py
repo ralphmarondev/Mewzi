@@ -5,6 +5,7 @@ from rest_framework import status
 from .models import Users
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.parsers import MultiPartParser, FormParser
 
 class UserListView(APIView):
     def get(self, request):
@@ -30,6 +31,7 @@ class ProfileView(APIView):
 
 class RegisterView(APIView):
     permission_classes = [AllowAny]
+    parser_classes = [MultiPartParser, FormParser]
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
