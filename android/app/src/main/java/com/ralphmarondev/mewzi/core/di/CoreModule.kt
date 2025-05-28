@@ -1,6 +1,7 @@
 package com.ralphmarondev.mewzi.core.di
 
 import com.ralphmarondev.mewzi.core.data.local.preferences.AppPreferences
+import com.ralphmarondev.mewzi.core.data.network.AuthInterceptor
 import com.ralphmarondev.mewzi.core.util.ThemeState
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -17,20 +18,21 @@ val coreModule = module {
     singleOf(::AppPreferences)
     singleOf(::ThemeState)
 
-    single<Interceptor> {
-        Interceptor { chain ->
-            val original = chain.request()
-            val request = original.newBuilder()
-                .header("X-Tenant-ID", "tenant1")
-                .method(original.method, original.body)
-                .build()
-            chain.proceed(request)
-        }
-    }
+    // register auth interceptor using app preferences
+    single<Interceptor> { AuthInterceptor(get<AppPreferences>()) }
 
+    // okHttpClient with auth interceptor
     single {
         OkHttpClient.Builder()
             .addInterceptor(get<Interceptor>())
+            .addInterceptor { chain ->
+                val original = chain.request()
+                val request = original.newBuilder()
+                    .header("X-Tenant-ID", "tenant1")
+                    .method(original.method, original.body)
+                    .build()
+                chain.proceed(request)
+            }
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
