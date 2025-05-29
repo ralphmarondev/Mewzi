@@ -3,7 +3,7 @@
 Welcome to **Mewzi** — a pastel-yellow social app where soft thoughts, tiny rambles, and meow-worthy moments live.  
 Powered by Django REST 🐍 and Jetpack Compose 🧵, and brewed on Ubuntu ☕🐧.
 
-<!-- <img src="public/mewzi-banner.png" alt="Mewzi banner" width="100%" /> -->
+<img src="https://github.com/ralphmarondev/Mewzi/blob/main/android/app/src/main/res/drawable/logo.png" alt="Mewzi banner" width="300px" height="300px" /> 
 
 ---
 
