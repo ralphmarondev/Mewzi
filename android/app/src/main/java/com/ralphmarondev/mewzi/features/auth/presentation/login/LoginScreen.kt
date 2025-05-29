@@ -147,7 +147,7 @@ fun LoginScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
-                            painter = rememberAsyncImagePainter(R.drawable.ic_launcher_foreground),
+                            painter = rememberAsyncImagePainter(R.drawable.logo),
                             contentDescription = "logo",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
