@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material.icons.outlined.NetworkPing
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -51,6 +52,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
 import com.ralphmarondev.mewzi.core.presentation.KeyboardAwareSnackbarHost
 import com.ralphmarondev.mewzi.core.util.LocalThemeState
+import com.ralphmarondev.mewzi.features.auth.presentation.components.EnterServerDomainDialog
 import com.ralphmarondev.mewzi.features.auth.presentation.components.NormalTextField
 import com.ralphmarondev.mewzi.features.auth.presentation.components.PasswordTextField
 import org.koin.androidx.compose.koinViewModel
@@ -65,6 +67,7 @@ fun LoginScreen(
     val username = viewModel.username.collectAsState().value
     val password = viewModel.password.collectAsState().value
     val response = viewModel.response.collectAsState().value
+    val showEnterServerDomainDialog = viewModel.showEnterServerDomainDialog.collectAsState().value
 
     val focusManager = LocalFocusManager.current
     val themeState = LocalThemeState.current
@@ -90,6 +93,16 @@ fun LoginScreen(
                     )
                 },
                 actions = {
+                    IconButton(
+                        onClick = {
+                            viewModel.setShowServerDomainDialog(true)
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.NetworkPing,
+                            contentDescription = "Setup server domain"
+                        )
+                    }
                     IconButton(
                         onClick = themeState::toggleTheme
                     ) {
@@ -234,5 +247,16 @@ fun LoginScreen(
             }
             item { Spacer(modifier = Modifier.height(100.dp)) }
         }
+    }
+
+    if (showEnterServerDomainDialog) {
+        EnterServerDomainDialog(
+            onDismiss = {
+                viewModel.setShowServerDomainDialog(false)
+            },
+            onConfirm = { domain ->
+                viewModel.setupServerDomain(domain)
+            }
+        )
     }
 }

@@ -11,9 +11,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-private const val IP_ADDRESS = "192.168.68.119"
-private const val BASE_URL = "http://$IP_ADDRESS:8000/api/"
-
 val coreModule = module {
     singleOf(::AppPreferences)
     singleOf(::ThemeState)
@@ -39,10 +36,21 @@ val coreModule = module {
     }
 
     single {
+        val preferences = get<AppPreferences>()
+        val baseUrl = buildBaseUrl(preferences)
+
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(baseUrl)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+}
+
+private fun buildBaseUrl(preferences: AppPreferences): String {
+    val ip = preferences.getIpAddress()
+        ?.takeIf { it.matches(Regex("\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b")) }
+        ?: "10.0.2.2"
+
+    return "http://$ip:8000/api/"
 }
