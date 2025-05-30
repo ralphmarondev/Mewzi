@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.util.fastForEachIndexed
 import com.ralphmarondev.mewzi.features.feed.presentation.FeedScreen
 import com.ralphmarondev.mewzi.features.new_post.presentation.NewPostScreen
+import com.ralphmarondev.mewzi.features.profile.presentation.ProfileScreen
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -77,7 +78,7 @@ fun HomeScreen() {
         when (currentIndex) {
             0 -> FeedScreen()
             1 -> NewPostScreen()
-            2 -> {}
+            2 -> ProfileScreen()
         }
     }
 }
