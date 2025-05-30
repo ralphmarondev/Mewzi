@@ -1,6 +1,8 @@
 package com.ralphmarondev.mewzi.features.new_post.presentation
 
+import android.content.Context
 import android.util.Log
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ralphmarondev.mewzi.core.domain.model.Result
@@ -16,6 +18,9 @@ class NewPostViewModel(
     private val _caption = MutableStateFlow("")
     val caption = _caption.asStateFlow()
 
+    private val _image = MutableStateFlow("")
+    val image = _image.asStateFlow()
+
     private val _response = MutableStateFlow<Result?>(null)
     val response = _response.asStateFlow()
 
@@ -24,12 +29,18 @@ class NewPostViewModel(
         _caption.value = value
     }
 
-    fun post() {
+    fun setImageValue(value: String) {
+        _image.value = value
+    }
+
+    fun post(context: Context) {
         viewModelScope.launch {
             Log.d("App", "Caption: `${_caption.value}`")
 
             try {
-                val result = createNewPostUseCase(caption = _caption.value)
+                val uri = _image.value.toUri()
+                val imagePart = uriToMultipart(context, uri)
+                val result = createNewPostUseCase(_caption.value, imagePart)
                 _response.value = result
             } catch (e: Exception) {
                 _response.value = Result(

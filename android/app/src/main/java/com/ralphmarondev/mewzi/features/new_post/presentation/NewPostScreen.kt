@@ -1,5 +1,11 @@
 package com.ralphmarondev.mewzi.features.new_post.presentation
 
+import android.content.Context
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +19,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
@@ -24,24 +31,48 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.core.presentation.KeyboardAwareSnackbarHost
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import org.koin.androidx.compose.koinViewModel
+
+fun uriToMultipart(context: Context, uri: Uri, partName: String = "image"): MultipartBody.Part {
+    val contentResolver = context.contentResolver
+    val type = contentResolver.getType(uri) ?: "image/*"
+    val inputStream = contentResolver.openInputStream(uri)!!
+    val bytes = inputStream.readBytes()
+    val requestFile = bytes.toRequestBody(type.toMediaTypeOrNull())
+    return MultipartBody.Part.createFormData(partName, "upload.jpg", requestFile)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewPostScreen() {
     val viewModel: NewPostViewModel = koinViewModel()
     val caption = viewModel.caption.collectAsState().value
+    val image = viewModel.image.collectAsState().value
     val response = viewModel.response.collectAsState().value
 
     val focusManager = LocalFocusManager.current
     val snackbar = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            viewModel.setImageValue(it.toString())
+        }
+    }
 
     LaunchedEffect(response) {
         response?.let {
@@ -102,10 +133,34 @@ fun NewPostScreen() {
                         }
                     )
                 )
+                OutlinedButton(
+                    onClick = { launcher.launch("image/*") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        text = "Select Image",
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.W500,
+                        fontSize = 16.sp
+                    )
+                }
+                AnimatedVisibility(image.isNotBlank()) {
+                    Image(
+                        painter = rememberAsyncImagePainter(image),
+                        contentDescription = "Image to post",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(300.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(40.dp))
                 Button(
-                    onClick = viewModel::post,
+                    onClick = { viewModel.post(context) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(8.dp),
