@@ -154,11 +154,12 @@ fun NewPostScreen() {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(300.dp)
+                            .padding(horizontal = 8.dp)
+                            .height(200.dp)
                     )
                 }
 
-                Spacer(modifier = Modifier.height(40.dp))
+                Spacer(modifier = Modifier.height(16.dp))
                 Button(
                     onClick = { viewModel.post(context) },
                     modifier = Modifier
@@ -174,6 +175,7 @@ fun NewPostScreen() {
                     )
                 }
             }
+            item { Spacer(modifier = Modifier.height(100.dp)) }
         }
     }
 }
