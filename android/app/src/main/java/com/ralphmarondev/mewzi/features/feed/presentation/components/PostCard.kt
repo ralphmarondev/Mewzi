@@ -12,6 +12,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.MoreHoriz
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -20,7 +24,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
 
@@ -35,35 +41,59 @@ fun PostCard(
     OutlinedCard(
         modifier = modifier
     ) {
-        Column(
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(top = 16.dp, start = 16.dp, end = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
+            val ownerImageAsync = ownerImage ?: R.drawable.logo
+            Image(
+                painter = rememberAsyncImagePainter(ownerImageAsync),
+                contentDescription = ownerUsername,
                 modifier = Modifier
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                val ownerImageAsync = ownerImage ?: R.drawable.logo
-                Image(
-                    painter = rememberAsyncImagePainter(ownerImageAsync),
-                    contentDescription = ownerUsername,
-                    modifier = Modifier
-                        .size(28.dp)
-                        .clip(CircleShape),
-                    contentScale = ContentScale.Crop
-                )
+                    .size(38.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
 
-                Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
                 Text(
                     text = ownerUsername,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.secondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = "05-31-25",
+                    fontSize = 11.sp,
+                    fontWeight = MaterialTheme.typography.titleSmall.fontWeight,
+                    color = MaterialTheme.colorScheme.secondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
+            Spacer(modifier = Modifier.weight(1f))
+            IconButton(
+                onClick = {}
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.MoreHoriz,
+                    contentDescription = "More",
+                    tint = MaterialTheme.colorScheme.secondary
+                )
+            }
+        }
 
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .padding(bottom = 16.dp)
+        ) {
             Text(
                 text = caption,
                 modifier = Modifier
@@ -74,7 +104,7 @@ fun PostCard(
             )
 
             image?.let {
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
                 AnimatedVisibility(image.isNotBlank()) {
                     val fullPath = "http://192.168.68.119:8000$image"
                     Image(
