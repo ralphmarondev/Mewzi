@@ -80,6 +80,7 @@ fun FeedScreen() {
                     ownerImage = post.ownerImage,
                     ownerUsername = post.ownerUsername,
                     caption = post.caption,
+                    image = post.image,
                     modifier = Modifier
                         .fillMaxWidth()
                 )

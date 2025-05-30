@@ -1,14 +1,17 @@
 package com.ralphmarondev.mewzi.features.feed.presentation.components
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -26,7 +29,8 @@ fun PostCard(
     modifier: Modifier = Modifier,
     ownerImage: String?,
     ownerUsername: String,
-    caption: String
+    caption: String,
+    image: String?
 ) {
     OutlinedCard(
         modifier = modifier
@@ -41,9 +45,9 @@ fun PostCard(
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                val image = ownerImage ?: R.drawable.logo
+                val ownerImageAsync = ownerImage ?: R.drawable.logo
                 Image(
-                    painter = rememberAsyncImagePainter(image),
+                    painter = rememberAsyncImagePainter(ownerImageAsync),
                     contentDescription = ownerUsername,
                     modifier = Modifier
                         .size(28.dp)
@@ -68,6 +72,22 @@ fun PostCard(
                 fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                 color = MaterialTheme.colorScheme.secondary
             )
+
+            image?.let {
+                Spacer(modifier = Modifier.height(8.dp))
+                AnimatedVisibility(image.isNotBlank()) {
+                    val fullPath = "http://192.168.68.119:8000$image"
+                    Image(
+                        painter = rememberAsyncImagePainter(fullPath),
+                        contentDescription = "$ownerUsername post",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .height(200.dp)
+                    )
+                }
+            }
         }
     }
 }
