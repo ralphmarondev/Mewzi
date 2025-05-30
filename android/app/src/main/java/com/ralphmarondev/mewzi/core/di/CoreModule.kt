@@ -11,6 +11,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+// NOTE: temporary -> May 31, 2025 @ 7:39AM
+const val BASE_URL = "http://192.168.68.119:8000"
+
 val coreModule = module {
     singleOf(::AppPreferences)
     singleOf(::ThemeState)
@@ -36,8 +39,9 @@ val coreModule = module {
     }
 
     single {
-        val preferences = get<AppPreferences>()
-        val baseUrl = buildBaseUrl(preferences)
+//        val preferences = get<AppPreferences>()
+//        val baseUrl = buildBaseUrl(preferences)
+        val baseUrl = "$BASE_URL/api/"
 
         Retrofit.Builder()
             .baseUrl(baseUrl)

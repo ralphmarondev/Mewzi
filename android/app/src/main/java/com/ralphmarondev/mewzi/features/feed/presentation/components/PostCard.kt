@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
+import com.ralphmarondev.mewzi.core.di.BASE_URL
 
 @Composable
 fun PostCard(
@@ -106,7 +107,7 @@ fun PostCard(
             image?.let {
                 Spacer(modifier = Modifier.height(4.dp))
                 AnimatedVisibility(image.isNotBlank()) {
-                    val fullPath = "http://192.168.68.119:8000$image"
+                    val fullPath = "$BASE_URL$image"
                     Image(
                         painter = rememberAsyncImagePainter(fullPath),
                         contentDescription = "$ownerUsername post",

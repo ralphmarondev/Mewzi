@@ -19,7 +19,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.LightMode
-import androidx.compose.material.icons.outlined.NetworkPing
 import androidx.compose.material.icons.outlined.Password
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -93,16 +92,6 @@ fun LoginScreen(
                     )
                 },
                 actions = {
-                    IconButton(
-                        onClick = {
-                            viewModel.setShowServerDomainDialog(true)
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Outlined.NetworkPing,
-                            contentDescription = "Setup server domain"
-                        )
-                    }
                     IconButton(
                         onClick = themeState::toggleTheme
                     ) {
