@@ -38,8 +38,13 @@ class NewPostViewModel(
             Log.d("App", "Caption: `${_caption.value}`")
 
             try {
-                val uri = _image.value.toUri()
-                val imagePart = uriToMultipart(context, uri)
+                val imagePart = if (_image.value.isNotBlank()) {
+                    val uri = _image.value.toUri()
+                    uriToMultipart(context, uri)
+                } else {
+                    null
+                }
+
                 val result = createNewPostUseCase(_caption.value, imagePart)
                 _response.value = result
 
