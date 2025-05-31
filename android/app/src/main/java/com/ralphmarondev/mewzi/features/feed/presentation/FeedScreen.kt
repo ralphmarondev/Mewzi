@@ -96,10 +96,7 @@ fun FeedScreen() {
             ) {
                 items(posts) { post ->
                     PostCard(
-                        ownerImage = post.ownerImage,
-                        ownerUsername = post.ownerUsername,
-                        caption = post.caption,
-                        image = post.image,
+                        post = post,
                         modifier = Modifier
                             .fillMaxWidth()
                     )

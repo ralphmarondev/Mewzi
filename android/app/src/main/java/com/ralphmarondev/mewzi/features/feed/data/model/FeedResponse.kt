@@ -10,6 +10,7 @@ data class FeedResponse(
     val ownerImage: String,
     val image: String,
     val caption: String,
+    @SerializedName("create_date")
     val createDate: String,
     val owner: Int
 )

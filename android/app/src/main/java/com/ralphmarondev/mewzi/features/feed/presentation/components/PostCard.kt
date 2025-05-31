@@ -30,14 +30,13 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
 import com.ralphmarondev.mewzi.core.di.BASE_URL
+import com.ralphmarondev.mewzi.core.util.formatDateTime
+import com.ralphmarondev.mewzi.features.feed.domain.model.Post
 
 @Composable
 fun PostCard(
     modifier: Modifier = Modifier,
-    ownerImage: String?,
-    ownerUsername: String,
-    caption: String,
-    image: String?
+    post: Post
 ) {
     OutlinedCard(
         modifier = modifier
@@ -48,10 +47,10 @@ fun PostCard(
                 .padding(top = 16.dp, start = 16.dp, end = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val ownerImageAsync = ownerImage ?: R.drawable.logo
+            val ownerImageAsync = post.ownerImage ?: R.drawable.logo
             Image(
                 painter = rememberAsyncImagePainter(ownerImageAsync),
-                contentDescription = ownerUsername,
+                contentDescription = post.ownerUsername,
                 modifier = Modifier
                     .size(38.dp)
                     .clip(CircleShape),
@@ -61,7 +60,7 @@ fun PostCard(
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
-                    text = ownerUsername,
+                    text = post.ownerUsername,
                     fontSize = MaterialTheme.typography.titleMedium.fontSize,
                     fontWeight = MaterialTheme.typography.titleMedium.fontWeight,
                     color = MaterialTheme.colorScheme.secondary,
@@ -69,7 +68,7 @@ fun PostCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "05-31-25",
+                    text = formatDateTime(post.uploadDate ?: ""),
                     fontSize = 11.sp,
                     fontWeight = MaterialTheme.typography.titleSmall.fontWeight,
                     color = MaterialTheme.colorScheme.secondary,
@@ -96,7 +95,7 @@ fun PostCard(
                 .padding(bottom = 16.dp)
         ) {
             Text(
-                text = caption,
+                text = post.caption,
                 modifier = Modifier
                     .padding(vertical = 8.dp),
                 fontSize = MaterialTheme.typography.titleMedium.fontSize,
@@ -104,13 +103,13 @@ fun PostCard(
                 color = MaterialTheme.colorScheme.secondary
             )
 
-            image?.let {
+            post.image?.let {
                 Spacer(modifier = Modifier.height(4.dp))
-                AnimatedVisibility(image.isNotBlank()) {
-                    val fullPath = "$BASE_URL$image"
+                AnimatedVisibility(post.image.isNotBlank()) {
+                    val fullPath = "$BASE_URL${post.image}"
                     Image(
                         painter = rememberAsyncImagePainter(fullPath),
-                        contentDescription = "$ownerUsername post",
+                        contentDescription = "${post.ownerUsername} post",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .fillMaxWidth()
