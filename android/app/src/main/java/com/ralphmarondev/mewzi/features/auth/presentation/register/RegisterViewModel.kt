@@ -3,6 +3,7 @@ package com.ralphmarondev.mewzi.features.auth.presentation.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ralphmarondev.mewzi.core.data.local.preferences.AppPreferences
 import com.ralphmarondev.mewzi.core.domain.model.Result
 import com.ralphmarondev.mewzi.features.auth.domain.usecase.RegisterUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
+    private val preferences: AppPreferences,
     private val registerUseCase: RegisterUseCase
 ) : ViewModel() {
 
@@ -60,6 +62,10 @@ class RegisterViewModel(
                     username = _username.value,
                     password = _password.value
                 )
+                if (result.success) {
+                    preferences.setUsername(_username.value.trim())
+                    preferences.setPassword(_password.value.trim())
+                }
                 _response.value = result
             } catch (e: Exception) {
                 Log.e("App", "Registration failed. Error: ${e.message}")
