@@ -20,8 +20,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ralphmarondev.mewzi.core.util.LocalThemeState
@@ -33,8 +38,9 @@ import org.koin.androidx.compose.koinViewModel
 fun FeedScreen() {
     val viewModel: FeedViewModel = koinViewModel()
     val posts = viewModel.posts.collectAsState().value
-
     val themeState = LocalThemeState.current
+
+    var isRefreshing by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -68,25 +74,39 @@ fun FeedScreen() {
             )
         }
     ) { innerPadding ->
-        LazyColumn(
+        PullToRefreshBox(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding),
-            contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            items(posts) { post ->
-                PostCard(
-                    ownerImage = post.ownerImage,
-                    ownerUsername = post.ownerUsername,
-                    caption = post.caption,
-                    image = post.image,
-                    modifier = Modifier
-                        .fillMaxWidth()
+            isRefreshing = isRefreshing,
+            onRefresh = {
+                isRefreshing = true
+                viewModel.refresh(
+                    onDone = {
+                        isRefreshing = false
+                    }
                 )
             }
-            item {
-                Spacer(modifier = Modifier.height(100.dp))
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                items(posts) { post ->
+                    PostCard(
+                        ownerImage = post.ownerImage,
+                        ownerUsername = post.ownerUsername,
+                        caption = post.caption,
+                        image = post.image,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.height(100.dp))
+                }
             }
         }
     }
