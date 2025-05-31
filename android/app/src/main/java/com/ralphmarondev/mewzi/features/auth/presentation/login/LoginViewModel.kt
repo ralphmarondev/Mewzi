@@ -26,6 +26,9 @@ class LoginViewModel(
     private val _showEnterServerDomainDialog = MutableStateFlow(false)
     val showEnterServerDomainDialog = _showEnterServerDomainDialog.asStateFlow()
 
+    private val _showForgotPasswordDialog = MutableStateFlow(false)
+    val showForgotPasswordDialog = _showForgotPasswordDialog.asStateFlow()
+
 
     fun onUsernameValueChange(value: String) {
         _username.value = value
@@ -33,6 +36,10 @@ class LoginViewModel(
 
     fun onPasswordValueChange(value: String) {
         _password.value = value
+    }
+
+    fun setShowForgotPasswordDialogValue(value: Boolean) {
+        _showForgotPasswordDialog.value = value
     }
 
     fun login() {
