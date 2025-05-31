@@ -47,7 +47,11 @@ fun PostCard(
                 .padding(top = 16.dp, start = 16.dp, end = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val ownerImageAsync = post.ownerImage ?: R.drawable.logo
+            val ownerImageAsync = if (post.ownerImage.isNullOrBlank()) {
+                R.drawable.logo
+            } else {
+                "$BASE_URL${post.ownerImage}"
+            }
             Image(
                 painter = rememberAsyncImagePainter(ownerImageAsync),
                 contentDescription = post.ownerUsername,
