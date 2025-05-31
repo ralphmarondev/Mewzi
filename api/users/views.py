@@ -45,3 +45,17 @@ class UserView(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
+class UserUpdateView(APIView):
+    permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
+
+    def put(self, request):
+        user = request.user
+        serializer = UserSerializer(user, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+    
+    def patch(self, request):
+        return self.put(request)
+
