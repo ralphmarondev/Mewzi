@@ -42,6 +42,11 @@ class NewPostViewModel(
                 val imagePart = uriToMultipart(context, uri)
                 val result = createNewPostUseCase(_caption.value, imagePart)
                 _response.value = result
+
+                if (result.success) {
+                    _caption.value = ""
+                    _image.value = ""
+                }
             } catch (e: Exception) {
                 _response.value = Result(
                     success = false,

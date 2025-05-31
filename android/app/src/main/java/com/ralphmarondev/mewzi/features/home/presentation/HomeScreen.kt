@@ -12,9 +12,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.util.fastForEachIndexed
 import com.ralphmarondev.mewzi.features.feed.presentation.FeedScreen
@@ -27,6 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 fun HomeScreen() {
     val viewModel: HomeViewModel = koinViewModel()
     val currentIndex = viewModel.currentIndex.collectAsState().value
+    val snackbarState = remember { SnackbarHostState() }
 
     val navItems = listOf(
         NavItems(
@@ -73,11 +77,14 @@ fun HomeScreen() {
                     )
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarState)
         }
     ) {
         when (currentIndex) {
             0 -> FeedScreen()
-            1 -> NewPostScreen()
+            1 -> NewPostScreen(snackbarState)
             2 -> ProfileScreen()
         }
     }

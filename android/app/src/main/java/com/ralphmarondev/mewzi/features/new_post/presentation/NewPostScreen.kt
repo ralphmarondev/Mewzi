@@ -29,7 +29,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -57,14 +56,15 @@ fun uriToMultipart(context: Context, uri: Uri, partName: String = "image"): Mult
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NewPostScreen() {
+fun NewPostScreen(
+    snackbar: SnackbarHostState
+) {
     val viewModel: NewPostViewModel = koinViewModel()
     val caption = viewModel.caption.collectAsState().value
     val image = viewModel.image.collectAsState().value
     val response = viewModel.response.collectAsState().value
 
     val focusManager = LocalFocusManager.current
-    val snackbar = remember { SnackbarHostState() }
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
