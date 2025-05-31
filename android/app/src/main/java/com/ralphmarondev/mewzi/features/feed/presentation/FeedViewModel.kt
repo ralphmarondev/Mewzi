@@ -40,6 +40,7 @@ class FeedViewModel(
                 )
             } catch (e: Exception) {
                 Log.e("App", "Error getting token: ${e.message}")
+                return@launch
             }
 
             while (true) {
