@@ -1,4 +1,4 @@
-package com.ralphmarondev.mewzi.features.profile.presentation
+package com.ralphmarondev.mewzi.features.profile.presentation.overview
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -20,14 +20,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.util.fastForEachIndexed
+import androidx.navigation.NavHostController
 import com.ralphmarondev.mewzi.features.feed.presentation.FeedScreen
 import com.ralphmarondev.mewzi.features.new_post.presentation.NewPostScreen
-import com.ralphmarondev.mewzi.features.profile.presentation.ProfileScreen
+import com.ralphmarondev.mewzi.features.profile.presentation.overview.ProfileScreen
 import org.koin.androidx.compose.koinViewModel
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navController: NavHostController
+) {
     val viewModel: HomeViewModel = koinViewModel()
     val currentIndex = viewModel.currentIndex.collectAsState().value
     val snackbarState = remember { SnackbarHostState() }
@@ -85,7 +88,7 @@ fun HomeScreen() {
         when (currentIndex) {
             0 -> FeedScreen()
             1 -> NewPostScreen(snackbarState)
-            2 -> ProfileScreen()
+            2 -> ProfileScreen(navController)
         }
     }
 }

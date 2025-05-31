@@ -9,6 +9,7 @@ import com.ralphmarondev.mewzi.core.util.LocalThemeState
 import com.ralphmarondev.mewzi.features.auth.presentation.login.LoginScreen
 import com.ralphmarondev.mewzi.features.auth.presentation.register.RegisterScreen
 import com.ralphmarondev.mewzi.features.home.presentation.HomeScreen
+import com.ralphmarondev.mewzi.features.profile.presentation.edit_profile.EditProfileScreen
 import com.ralphmarondev.mewzi.ui.theme.MewziTheme
 
 @Composable
@@ -47,7 +48,14 @@ fun AppNavigation(
                 )
             }
             composable<Routes.Home> {
-                HomeScreen()
+                HomeScreen(navController)
+            }
+            composable<Routes.EditProfile> {
+                EditProfileScreen(
+                    navigateBack = {
+                        navController.navigateUp()
+                    }
+                )
             }
         }
     }

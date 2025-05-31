@@ -4,7 +4,7 @@ import com.ralphmarondev.mewzi.features.profile.data.network.ProfileApiService
 import com.ralphmarondev.mewzi.features.profile.data.repository.ProfileRepositoryImpl
 import com.ralphmarondev.mewzi.features.profile.domain.repository.ProfileRepository
 import com.ralphmarondev.mewzi.features.profile.domain.usecase.GetUserDetailUseCase
-import com.ralphmarondev.mewzi.features.profile.presentation.ProfileViewModel
+import com.ralphmarondev.mewzi.features.profile.presentation.overview.ProfileViewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.module

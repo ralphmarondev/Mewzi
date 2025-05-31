@@ -1,4 +1,4 @@
-package com.ralphmarondev.mewzi.features.profile.presentation
+package com.ralphmarondev.mewzi.features.profile.presentation.overview
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,8 +17,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowForwardIos
 import androidx.compose.material.icons.automirrored.outlined.Logout
-import androidx.compose.material.icons.outlined.CameraAlt
 import androidx.compose.material.icons.outlined.Drafts
+import androidx.compose.material.icons.outlined.EditNote
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.MonetizationOn
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,15 +37,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.ralphmarondev.mewzi.R
 import com.ralphmarondev.mewzi.core.di.BASE_URL
 import com.ralphmarondev.mewzi.features.profile.presentation.components.OptionCard
+import com.ralphmarondev.mewzi.navigation.Routes
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(
+    navController: NavHostController
+) {
     val viewModel: ProfileViewModel = koinViewModel()
     val user = viewModel.user.collectAsState().value
 
@@ -103,11 +107,15 @@ fun ProfileScreen() {
                                 color = MaterialTheme.colorScheme.primary,
                                 shape = CircleShape
                             )
-                            .clickable { },
+                            .clickable {
+                                navController.navigate(Routes.EditProfile) {
+                                    launchSingleTop = true
+                                }
+                            },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
-                            imageVector = Icons.Outlined.CameraAlt,
+                            imageVector = Icons.Outlined.EditNote,
                             contentDescription = "Update profile image",
                             tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier.size(16.dp)
