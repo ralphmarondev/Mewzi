@@ -14,7 +14,8 @@ class ProfileRepositoryImpl(
             firstName = response.firstName,
             lastName = response.lastName,
             username = response.username,
-            dateJoined = response.dateJoined
+            dateJoined = response.dateJoined,
+            image = response.image
         )
     }
 }

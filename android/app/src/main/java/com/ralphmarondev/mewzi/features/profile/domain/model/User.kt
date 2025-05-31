@@ -4,5 +4,6 @@ data class User(
     val firstName: String?,
     val lastName: String?,
     val username: String,
-    val dateJoined: String
+    val dateJoined: String,
+    val image: String?
 )
