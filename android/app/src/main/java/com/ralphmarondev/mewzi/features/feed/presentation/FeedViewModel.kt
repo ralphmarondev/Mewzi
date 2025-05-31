@@ -30,15 +30,24 @@ class FeedViewModel(
             if (!preferences.isFirstLaunch()) {
                 try {
                     val username = preferences.getUsername()
-                    val password = preferences.getUsername()
+                    val password = preferences.getPassword()
 
                     if (username.isNullOrBlank() || password.isNullOrBlank()) {
+                        Log.w(
+                            "App",
+                            "Username or password is blank. Username: `${username}`, password: `${password}`"
+                        )
                         return@launch
                     }
-                    loginUseCase(
+                    val result = loginUseCase(
                         username = username,
                         password = password
                     )
+                    if (result.success) {
+                        Log.d("App", "Login successful.")
+                    } else {
+                        Log.e("App", "Login failed.")
+                    }
                 } catch (e: Exception) {
                     Log.e("App", "Error getting token: ${e.message}")
                     return@launch
