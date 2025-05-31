@@ -7,13 +7,27 @@ import okhttp3.Response
 class AuthInterceptor(
     private val preferences: AppPreferences
 ) : Interceptor {
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val token = preferences.getAccessToken()
-        val request = chain.request().newBuilder()
 
-        token?.let {
-            request.addHeader("Authorization", "Bearer $it")
+    private val publicEndpoints = listOf(
+        "registration/",
+        "token/"
+    )
+
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val urlPath = request.url.encodedPath
+
+        val isPublic = publicEndpoints.any { endpoint ->
+            urlPath.endsWith(endpoint)
         }
-        return chain.proceed(request.build())
+        val newRequestBuilder = request.newBuilder()
+
+        if (!isPublic) {
+            preferences.getAccessToken()?.let { token ->
+                newRequestBuilder.addHeader("Authorization", "Bearer $token")
+            }
+        }
+
+        return chain.proceed(newRequestBuilder.build())
     }
 }
