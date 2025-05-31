@@ -14,6 +14,8 @@ class AppPreferences(
         private const val IP_ADDRESS = "ip_address"
         private const val ACCESS_TOKEN = "access_token"
         private const val REFRESH_TOKEN = "refresh_token"
+        private const val USERNAME = "username"
+        private const val PASSWORD = "password"
     }
 
     private val sharedPreferences: SharedPreferences = context.getSharedPreferences(
@@ -58,5 +60,21 @@ class AppPreferences(
 
     fun getRefreshToken(): String? {
         return sharedPreferences.getString(REFRESH_TOKEN, null)
+    }
+
+    fun setUsername(value: String) {
+        sharedPreferences.edit { putString(USERNAME, value) }
+    }
+
+    fun getUsername(): String? {
+        return sharedPreferences.getString(USERNAME, null)
+    }
+
+    fun setPassword(value: String) {
+        sharedPreferences.edit { putString(PASSWORD, value) }
+    }
+
+    fun getPassword(): String? {
+        return sharedPreferences.getString(PASSWORD, null)
     }
 }

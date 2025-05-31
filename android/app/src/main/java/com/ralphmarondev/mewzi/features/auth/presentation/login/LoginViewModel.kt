@@ -42,6 +42,10 @@ class LoginViewModel(
                     username = _username.value,
                     password = _password.value
                 )
+                if (result.success) {
+                    preferences.setUsername(_username.value.trim())
+                    preferences.setPassword(_password.value.trim())
+                }
                 _response.value = result
             } catch (e: Exception) {
                 _response.value = Result(
