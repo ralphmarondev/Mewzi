@@ -94,7 +94,10 @@ fun FeedScreen() {
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                items(posts) { post ->
+                items(
+                    items = posts,
+                    key = { post -> post.id }
+                ) { post ->
                     PostCard(
                         post = post,
                         modifier = Modifier
