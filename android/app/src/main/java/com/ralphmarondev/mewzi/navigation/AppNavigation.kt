@@ -67,8 +67,17 @@ fun AppNavigation(
             }
             composable<Routes.Register> {
                 RegisterScreen(
-                    navigateBack = {
-                        navController.navigateUp()
+                    navigateToLogin = {
+                        navController.navigate(Routes.Login) {
+                            launchSingleTop = true
+                        }
+                    },
+                    navigateToHome = {
+                        navController.navigate(Routes.Home) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                            preferences.setFirstLaunch()
+                        }
                     }
                 )
             }

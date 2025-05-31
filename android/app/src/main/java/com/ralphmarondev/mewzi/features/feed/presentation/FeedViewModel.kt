@@ -27,20 +27,22 @@ class FeedViewModel(
 
     private fun startPolling() {
         viewModelScope.launch {
-            try {
-                val username = preferences.getUsername()
-                val password = preferences.getUsername()
+            if (!preferences.isFirstLaunch()) {
+                try {
+                    val username = preferences.getUsername()
+                    val password = preferences.getUsername()
 
-                if (username.isNullOrBlank() || password.isNullOrBlank()) {
+                    if (username.isNullOrBlank() || password.isNullOrBlank()) {
+                        return@launch
+                    }
+                    loginUseCase(
+                        username = username,
+                        password = password
+                    )
+                } catch (e: Exception) {
+                    Log.e("App", "Error getting token: ${e.message}")
                     return@launch
                 }
-                loginUseCase(
-                    username = username,
-                    password = password
-                )
-            } catch (e: Exception) {
-                Log.e("App", "Error getting token: ${e.message}")
-                return@launch
             }
 
             while (true) {

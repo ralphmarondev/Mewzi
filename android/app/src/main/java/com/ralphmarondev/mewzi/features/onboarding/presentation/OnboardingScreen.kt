@@ -80,7 +80,7 @@ fun OnboardingScreen(
                     onClick = navigateToLogin,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
@@ -93,7 +93,7 @@ fun OnboardingScreen(
                     onClick = navigateToRegister,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
+                        .padding(horizontal = 8.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text(
