@@ -162,7 +162,12 @@ fun ProfileScreen(
                         .padding(vertical = 4.dp)
                 )
                 OptionCard(
-                    onClick = {},
+                    onClick = {
+                        navController.navigate(Routes.Login) {
+                            popUpTo(0) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    },
                     leadingIcon = Icons.AutoMirrored.Outlined.Logout,
                     trailingIcon = Icons.AutoMirrored.Outlined.ArrowForwardIos,
                     text = "Logout",
